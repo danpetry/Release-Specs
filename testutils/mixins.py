@@ -36,14 +36,13 @@ class GNRC:
                 "ping6 -c {} -i {} -s {} {} ".format(
                     count, delay, payload_size, dest_addr))
         packet_loss = None
-        for i in range(count+1):
+        while True:
             exp = self.pexpect.expect(
-                    ["bytes from", "([\\d]+) packets transmitted, ([\\d]+) "
-                     "received, ([\\d]+)% packet loss", "timeout",
+                    ["bytes from", "([\\d]+)% packet loss", "timeout", 
                      pexpect.TIMEOUT], timeout=10)
 
             if exp == 1:
-                packet_loss = int(self.pexpect.match.group(3))
+                packet_loss = int(self.pexpect.match.group(1))
                 break
             if exp == 2:
                 print("x", end="", flush=True)
