@@ -33,8 +33,8 @@ class GNRC:
 
     def ping(self, count, dest_addr, payload_size, delay):
         self.pexpect.sendline(
-                "ping6 {} {} {} {}".format(
-                    count, dest_addr, payload_size, delay))
+                "ping6 -c {} -i {} -s {} {} ".format(
+                    count, delay, payload_size, dest_addr))
         packet_loss = None
         for i in range(count+1):
             exp = self.pexpect.expect(
